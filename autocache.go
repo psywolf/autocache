@@ -30,6 +30,10 @@ func New(maxSize int, lookupFunc LookupFuncType) *Cache {
 }
 
 func (c *Cache) Get(key string) (string, error) {
+	if c.maxSize <= 0 {
+		return c.lookupFunc(key)
+	}
+
 	valNode, ok := c.hash[key]
 	chopTail := false
 	if !ok {
